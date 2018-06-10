@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary"
                 android:inputType="textPassword"
-                android:hint="Password"/>
+                android:hint="Senha"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton

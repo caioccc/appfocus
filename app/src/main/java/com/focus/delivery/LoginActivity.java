@@ -32,8 +32,12 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    // TODO: Salvar em DB LOCAL as credenciais do Usuario
-    // TODO: Ao Abrir App Carregar o bd mais atual (Loading...)
+    // TODO: Enviar para aprovacao Template de Login/Logout
+    // TODO: Verificar Pagamento.
+    // Estudar ReclycView
+    // TODO: Salvar local o JSON completo das Lojas
+    // TODO: Implementar Cards com load das Lojas
+    // TODO: Implementar Catalogo de Produtos
     // TODO: Testes
     @BindView(R.id.input_numero)
     EditText _numero;

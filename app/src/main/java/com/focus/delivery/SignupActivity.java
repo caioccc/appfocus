@@ -73,6 +73,12 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        // Disable going back to the MainActivity
+//        moveTaskToBack(true);
+    }
+
     public void signup() {
         Log.d(TAG, "Signup");
 
