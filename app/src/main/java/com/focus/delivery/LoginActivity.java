@@ -1,12 +1,12 @@
 package com.focus.delivery;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
-
-import android.content.Intent;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.focus.delivery.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,17 +35,21 @@ public class LoginActivity extends AppCompatActivity {
     // TODO: Salvar em DB LOCAL as credenciais do Usuario
     // TODO: Ao Abrir App Carregar o bd mais atual (Loading...)
     // TODO: Testes
-    @BindView(R.id.input_numero) EditText _numero;
-    @BindView(R.id.input_password) EditText _passwordText;
-    @BindView(R.id.btn_login) Button _loginButton;
-    @BindView(R.id.link_signup) TextView _signupLink;
-    
+    @BindView(R.id.input_numero)
+    EditText _numero;
+    @BindView(R.id.input_password)
+    EditText _passwordText;
+    @BindView(R.id.btn_login)
+    Button _loginButton;
+    @BindView(R.id.link_signup)
+    TextView _signupLink;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -92,8 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);  // this = context
 
         StringRequest postRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>()
-                {
+                new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         // response
@@ -102,6 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                                 new Runnable() {
                                     public void run() {
                                         // On complete call either onLoginSuccess or onLoginFailed
+                                        String username = _numero.getText().toString();
+                                        String pass = _passwordText.getText().toString();
+                                        SharedPreferences myPrefs = getSharedPreferences("prefs", MODE_PRIVATE);
+                                        SharedPreferences.Editor e = myPrefs.edit();
+                                        e.putString("username", username); // add or overwrite someValue
+                                        e.putString("password", pass);
+                                        e.commit();
                                         onLoginSuccess();
                                         // onLoginFailed();
                                         progressDialog.dismiss();
@@ -109,8 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }, 3000);
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("ERROR", error.toString());
@@ -123,15 +131,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> params = new HashMap<String, String>();
-                String creds = String.format("%s:%s",numero,password);
+                String creds = String.format("%s:%s", numero, password);
                 String auth = "Basic " + Base64.encodeToString(creds.getBytes(), Base64.DEFAULT);
                 params.put("Authorization", auth);
                 return params;
             }
+
             @Override
-            protected Map<String, String> getParams()
-            {
-                Map<String, String>  params = new HashMap<String, String>();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
 //                params.put("username", numero);
 //                params.put("password", password);
 
